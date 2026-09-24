@@ -50,6 +50,7 @@ async function completeChallenge(button) {
         if (!token) return;
         try {
           await ensureAnonymousSession(token);
+          button.dataset.authReady = 'true';
           button.dataset.captchaReady = 'true';
           challengeInFlight = false;
           button.disabled = false;
