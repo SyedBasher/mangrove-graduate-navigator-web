@@ -91,11 +91,11 @@ export async function ensureAnonymousSession(captchaToken = null) {
   if (!session) {
     if (!String(TURNSTILE_SITE_KEY || '').trim() && !isTurnstilePreviewHost()) {
       throw new Error(state.lang === 'en'
-        ? 'The assessment is temporarily unavailable while production security is being configured.'
-        : 'প্রোডাকশন নিরাপত্তা কনফিগার করা পর্যন্ত মূল্যায়ন সাময়িকভাবে বন্ধ আছে।');
+        ? 'The assessment is temporarily unavailable. Please try again shortly.'
+        : 'মূল্যায়ন সাময়িকভাবে পাওয়া যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।');
     }
     if (TURNSTILE_SITE_KEY && !captchaToken) {
-      throw new Error(state.lang === 'en' ? 'Please complete the security check.' : 'নিরাপত্তা যাচাই সম্পন্ন করুন।');
+      throw new Error(state.lang === 'en' ? 'Could not start the assessment. Please try again.' : 'মূল্যায়ন শুরু করা যায়নি। আবার চেষ্টা করুন।');
     }
     const options = captchaToken ? { options: { captchaToken } } : undefined;
     const { data, error } = await supabase.auth.signInAnonymously(options);

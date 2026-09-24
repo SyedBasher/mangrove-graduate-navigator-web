@@ -60,7 +60,9 @@ async function startAssessment(button = null) {
   btn.disabled = true;
   setStatus('');
   try {
-    await ensureAnonymousSession();
+    const authReady = btn.dataset.authReady === 'true';
+    delete btn.dataset.authReady;
+    if (!authReady) await ensureAnonymousSession();
     state.researchConsent = false;
     state.startedAt = Date.now();
     let { error } = await supabase.from('user_profiles').upsert({ user_id: state.userId, preferred_language: state.lang });
