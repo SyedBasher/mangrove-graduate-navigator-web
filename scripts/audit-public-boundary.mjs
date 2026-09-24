@@ -12,13 +12,14 @@ const forbiddenPaths=[
   /^scripts\/capture-report-visual-qa\.mjs$/,
   /^web\/report-qa(?:\.html|\.js)$/,
 ];
+const rx = (...parts) => new RegExp(parts.join(''), 'i');
 const sensitive=[
   ['private Gmail/Googlemail address',/[A-Z0-9._%+-]+@(?:gmail|googlemail)\.com/i],
-  ['Supabase service-role secret',/SUPABASE_(?:SERVICE_ROLE|SECRET)_KEY/i],
-  ['bKash server credential',/BKASH_(?:PASSWORD|APP_SECRET|USERNAME)/i],
-  ['Turnstile secret',/TURNSTILE_SECRET/i],
+  ['Supabase service-role secret',rx('SUPABASE_','(?:SERVICE_ROLE|SECRET)_KEY')],
+  ['bKash server credential',rx('BKASH_','(?:PASSWORD|APP_SECRET|USERNAME)')],
+  ['Turnstile secret',rx('TURNSTILE_','SECRET')],
   ['private key block',/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
-  ['private scoring source marker',/CAREER_WEIGHTS|capability_weights|preference_targets/i],
+  ['private scoring source marker',rx('CAREER_','WEIGHTS|capability_','weights|preference_','targets')],
 ];
 const textExt=/\.(?:html?|js|mjs|cjs|css|json|md|txt|xml|yml|yaml|toml|svg)$/i;
 const files=[];
