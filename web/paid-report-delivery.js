@@ -7,7 +7,7 @@ function fullReportUrl() {
     session: String(state.sessionId || ''),
     lang: state.lang === 'bn' ? 'bn' : 'en',
   });
-  return `./full-report.html?${params.toString()}`;
+  return `./full-report.html#${params.toString()}`;
 }
 
 function showUnlockedReportLink() {
