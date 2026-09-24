@@ -25,7 +25,7 @@ The public repository is built from a clean export. It is **not** a public copy 
 
 ## Current status
 
-This repository is being prepared as the future public shell. It is **not yet the production deployment source** for graduate.mangroveintel.com.
+This repository is being prepared as the future public Cloudflare Pages shell. The `cloudflare-api-cutover` branch routes proprietary result/report calls through Mangrove's private API gateway. It is **not yet the production deployment source** for graduate.mangroveintel.com.
 
 ## Security
 

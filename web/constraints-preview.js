@@ -1,6 +1,7 @@
 import { LAUNCH_PRICE_BDT } from './config.js';
 import { app, state, supabase, t, esc, showProgress, setStatus, hideProgress, logEvent, scrollAssessmentTop, saveProgress, go } from './runtime.js';
 import { mountPaidReportDeliveryIfUnlocked } from './paid-report-delivery.js';
+import { generatePreview } from './api-client.js';
 
 let loadingMessageTimer = null;
 let paidInterestRecorded = false;
@@ -74,12 +75,10 @@ function previewTimeout() {
 async function requestPreview({ reopened = false, retry = false } = {}) {
   renderLoading();
   try {
-    const result = await Promise.race([
-      supabase.functions.invoke('generate-preview', { body: { session_id: state.sessionId } }),
+    const data = await Promise.race([
+      generatePreview(state.sessionId, { country: 'BD' }),
       previewTimeout(),
     ]);
-    const { data, error } = result || {};
-    if (error) throw error;
     await logEvent(reopened ? 'preview_reopened' : (retry ? 'preview_retry_succeeded' : 'preview_viewed'), {
       run_id: data?.run_id,
       engine_version: data?.engine_version,
