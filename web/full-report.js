@@ -1,9 +1,35 @@
 import { createClient } from './vendor/supabase-js-2.95.0.js';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, MANGROVE_API_BASE } from './config.js';
 
-const params = new URLSearchParams(window.location.search);
-const language = params.get('lang') === 'bn' ? 'bn' : 'en';
-const sessionId = String(params.get('session') || '');
+const HANDOFF_KEY = 'gcn:paid-report-handoff';
+
+function reportHandoff() {
+  const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  const query = new URLSearchParams(window.location.search);
+  const session = String(fragment.get('session') || query.get('session') || '');
+  const lang = (fragment.get('lang') || query.get('lang')) === 'bn' ? 'bn' : 'en';
+
+  if (session) {
+    sessionStorage.setItem(HANDOFF_KEY, JSON.stringify({ session, lang }));
+    // Keep pseudonymous session identifiers out of browser history and referrers.
+    history.replaceState(null, '', './full-report.html');
+    return { session, lang };
+  }
+
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(HANDOFF_KEY) || '{}');
+    return {
+      session: String(saved?.session || ''),
+      lang: saved?.lang === 'bn' ? 'bn' : 'en',
+    };
+  } catch {
+    return { session: '', lang: 'en' };
+  }
+}
+
+const handoff = reportHandoff();
+const language = handoff.lang;
+const sessionId = handoff.session;
 document.documentElement.lang = language;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
