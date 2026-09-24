@@ -45,6 +45,13 @@ export function generatePreview(sessionId, { country = 'BD' } = {}) {
   });
 }
 
+export function generateFullReport(sessionId, { country = 'BD' } = {}) {
+  return privateRequest('/report/generate', {
+    session_id: sessionId,
+    country,
+  });
+}
+
 export function fetchFullReport(sessionId, language = 'en', { country = 'BD' } = {}) {
   return privateRequest('/report/full', {
     session_id: sessionId,
