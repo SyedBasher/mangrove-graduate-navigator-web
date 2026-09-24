@@ -85,3 +85,23 @@ export function queryBkashPayment(sessionId, paymentIntentId, paymentId, { count
     country,
   });
 }
+
+
+export function saveResearchFollowup(sessionId, {
+  researchConsent,
+  institutionType = null,
+  followupConsent = false,
+  contactChannel = null,
+  contactValue = null,
+  country = 'BD',
+} = {}) {
+  return privateRequest('/research/followup', {
+    session_id: sessionId,
+    research_consent: researchConsent === true,
+    institution_type: institutionType,
+    followup_consent: followupConsent === true,
+    contact_channel: followupConsent ? contactChannel : null,
+    contact_value: followupConsent ? contactValue : null,
+    country,
+  });
+}
