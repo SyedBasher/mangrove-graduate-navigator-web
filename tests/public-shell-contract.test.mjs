@@ -31,7 +31,12 @@ test('privacy surface publishes only Mangrove public mailboxes',()=>{
 });
 
 test('browser owns presentation, not scoring',()=>{
+  const privateMarkers=[
+    ['CAREER_','WEIGHTS'].join(''),
+    ['capability_','weights'].join(''),
+    ['preference_','targets'].join(''),
+  ];
   for(const source of [app,welcome,constraints]){
-    assert.doesNotMatch(source,/CAREER_WEIGHTS|capability_weights|preference_targets/);
+    for(const marker of privateMarkers) assert.equal(source.includes(marker),false);
   }
 });
