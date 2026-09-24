@@ -1,0 +1,500 @@
+/* Second/third/fourth feedback rounds: mobile-first readability, sharper controls and research/report refinements. */
+
+:root {
+  --control-line: #b9c4c6;
+  --control-line-strong: #83979a;
+}
+
+/* Light campaign-colour wash: recognisable, but still editorial rather than promotional. */
+body { background: #edf4f1; }
+
+.card,
+.report-paper {
+  border-color: #cfd7d8;
+  border-radius: 8px;
+}
+
+.primary,
+.secondary,
+.choice,
+.chip,
+.text-button,
+.neutral-choice,
+.field input,
+.field select,
+.check-option,
+.evidence-box,
+.result-card,
+.strength-card,
+.focus-card,
+.paywall,
+.discovery-card,
+.career-reference,
+.market-position-card {
+  border-radius: 5px;
+}
+
+.choice,
+.tradeoff-card,
+.neutral-choice,
+.check-option,
+.field input,
+.field select {
+  border-color: var(--control-line);
+}
+
+.choice:hover,
+.tradeoff-card:hover,
+.neutral-choice:hover,
+.check-option:hover {
+  border-color: var(--control-line-strong);
+}
+
+/* Options use the same editorial family as the question prompt, but at a practical UI size. */
+.capability-choice span,
+.tradeoff-card strong,
+.neutral-choice,
+.check-option span {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -.006em;
+}
+
+html[lang="bn"] .capability-choice span,
+html[lang="bn"] .tradeoff-card strong,
+html[lang="bn"] .neutral-choice,
+html[lang="bn"] .check-option span {
+  font-family: "Noto Serif Bengali", serif;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.capability-choice { padding: 16px 17px; }
+.capability-choice span { font-size: 16.5px; line-height: 1.48; }
+.tradeoff-card strong { font-size: 18px; line-height: 1.4; }
+.neutral-choice { font-size: 15.5px; line-height: 1.45; }
+
+.capability-step-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 23px;
+  color: #354850;
+  font-size: 13px;
+}
+.capability-step-label > span {
+  width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 22px;
+  border: 1px solid #9fb1b2;
+  border-radius: 50%;
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 700;
+  background: #f7faf9;
+}
+.capability-step-label strong { font-weight: 650; }
+.evidence-step { margin: 0 0 9px; }
+
+.evidence-box {
+  border-color: #c8d2d1;
+  background: #fafbf9;
+}
+.evidence-heading span { font-size: 13px; line-height: 1.5; }
+.chip { border-color: #bcc8c8; font-size: 13px; padding: 9px 12px; }
+
+/* Keep checkbox and text in a fixed two-column rhythm on all browsers. */
+.check-grid { gap: 8px; }
+.check-option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 11px;
+  padding: 12px 13px;
+  background: #fff;
+}
+.check-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+  justify-self: start;
+}
+.check-option span {
+  display: block;
+  font-size: 16px;
+  line-height: 1.42;
+  text-align: left;
+}
+
+.field-help { display: block; margin-top: 1px; color: var(--muted); font-size: 12px; }
+
+/* Make the eight preference questions unmistakably separate. */
+.preference-position {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: -4px 0 18px;
+  padding: 10px 12px;
+  border: 1px solid #c9d6d3;
+  background: #f5faf8;
+}
+.preference-position > div:first-child { display: grid; gap: 1px; }
+.preference-position strong { font-size: 13px; color: var(--accent-dark); }
+.preference-position span { font-size: 11.5px; color: var(--muted); }
+.preference-dots { display: flex; gap: 5px; align-items: center; }
+.preference-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid #8ea6a2;
+  background: #fff;
+}
+.preference-dot.done { background: #8fb6ae; border-color: #8fb6ae; }
+.preference-dot.current { width: 10px; height: 10px; background: var(--accent); border-color: var(--accent); }
+.preference-saved {
+  min-height: 22px;
+  margin-top: 10px;
+  color: var(--accent-dark);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.preference-enter { animation: preferenceIn .2s ease-out; }
+@keyframes preferenceIn {
+  from { opacity: .45; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Free-result discovery and stable reference surfaces. */
+.discovery-card {
+  margin-top: 27px;
+  border: 1px solid #b9cac6;
+  border-left: 4px solid var(--accent);
+  background: #f5faf8;
+  padding: 17px 18px;
+}
+.discovery-card > span {
+  display: block;
+  color: var(--accent-dark);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .075em;
+}
+.discovery-card strong {
+  display: block;
+  margin-top: 5px;
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 21px;
+  line-height: 1.25;
+}
+html[lang="bn"] .discovery-card strong { font-family: "Noto Serif Bengali", serif; line-height: 1.5; }
+.discovery-card p { margin: 7px 0 0; color: #40535a; }
+
+.career-reference {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  margin-top: 28px;
+  border: 1px solid #c9d2d3;
+  background: #c9d2d3;
+}
+.career-reference > div { background: #f8faf9; padding: 13px 14px; }
+.career-reference span { display: block; color: var(--muted); font-size: 10.5px; font-weight: 700; letter-spacing: .055em; }
+.career-reference strong { display: block; margin-top: 3px; font-size: 16px; letter-spacing: .025em; }
+.career-reference p { grid-column: 1 / -1; margin: 0; padding: 12px 14px; background: #fff; color: var(--muted); font-size: 12.5px; }
+
+/* Sample-report action surfaces. */
+.fit-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px 0 8px;
+}
+.fit-summary-card { border: 1px solid #c8d2d3; padding: 13px; background: #fbfcfb; }
+.fit-summary-card span { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .045em; }
+.fit-summary-card strong { display: block; margin-top: 3px; font-size: 18px; }
+.score-note { color: var(--muted); font-size: 12.5px; margin: 8px 0 0; }
+.path-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
+.path-card { border: 1px solid #c7d0d1; padding: 16px; background: #fff; }
+.path-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.path-card h3 { margin: 0; font-size: 19px; }
+.fit-pill {
+  white-space: nowrap;
+  border: 1px solid #95aaa7;
+  background: #edf6f4;
+  color: var(--accent-dark);
+  padding: 4px 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.path-card p { margin: 8px 0 0; font-size: 13.5px; }
+.skill-match { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.skill-match span { border: 1px solid #d5dcdd; background: #f7f9f9; padding: 4px 7px; font-size: 11.5px; }
+.job-link-row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 13px; }
+.job-link-row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid #9fb0b2;
+  padding: 7px 10px;
+  color: #1d3e41;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: #fff;
+}
+.job-link-row a:hover { background: #f2f6f5; }
+.report-checklist { display: grid; gap: 8px; margin-top: 12px; }
+.report-checklist div {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 9px;
+  align-items: start;
+  border-bottom: 1px solid #e3e7e7;
+  padding: 8px 0;
+}
+.report-checklist b { color: var(--accent-dark); }
+
+.report-paper { position: relative; overflow: hidden; }
+.report-watermark {
+  position: absolute;
+  top: 86px;
+  right: -34px;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  color: rgba(20,32,42,.07);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .08em;
+  pointer-events: none;
+  user-select: none;
+}
+.report-id-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 15px 0 0;
+  padding: 9px 0 0;
+  border-top: 1px solid #e0e5e5;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+.market-position-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-top: 13px;
+}
+.market-position-card {
+  border: 1px solid #cbd4d5;
+  padding: 12px;
+  background: #fafbfb;
+}
+.market-position-card span { display: block; color: var(--muted); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; }
+.market-position-card strong { display: block; margin-top: 4px; font-size: 14px; }
+.market-position-note { color: var(--muted); font-size: 12.5px; margin-top: 10px; }
+
+/* The report-language control should be hard to miss. */
+.report-language-switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid #8aa39e;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(20,32,42,.06);
+}
+.report-language-switch span { padding: 0 8px; color: var(--muted); font-size: 11px; font-weight: 600; }
+.report-language-switch button {
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 8px 12px;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+.report-language-switch button.active { border-color: var(--accent-dark); background: var(--accent-dark); color: #fff; }
+
+.discovery-report-card {
+  margin: 18px 0 8px;
+  padding: 18px 20px;
+  border: 2px solid #77a79e;
+  background: #edf7f4;
+}
+.discovery-report-card > span { display: block; margin-bottom: 6px; color: var(--accent-dark); font-size: 11px; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
+.discovery-report-card strong { display: block; font-size: 20px; }
+.discovery-report-card p { margin: 6px 0 0; }
+
+.method-details {
+  margin: 14px 0 4px;
+  border-top: 1px solid #cfd8d7;
+  border-bottom: 1px solid #cfd8d7;
+  padding: 10px 0;
+}
+.method-details summary { cursor: pointer; font-weight: 700; color: var(--accent-dark); }
+.method-details p,
+.method-details li { font-size: 13px; line-height: 1.5; }
+.method-details ul { margin: 8px 0 4px 20px; padding: 0; }
+
+@media (max-width: 720px) {
+  body { font-size: 16.5px; }
+  .card { padding: 25px 18px; }
+  .question-prompt { font-size: 24px; line-height: 1.31; }
+  html[lang="bn"] .question-prompt { font-size: 22px; line-height: 1.55; }
+  .example-box span { font-size: 14px; line-height: 1.5; }
+  .capability-choice { padding: 16px 15px; }
+  .capability-choice span { font-size: 17.5px; line-height: 1.5; }
+  html[lang="bn"] .capability-choice span { font-size: 17px; line-height: 1.58; }
+  .tradeoff-card { min-height: 126px; }
+  .tradeoff-card strong { font-size: 18.5px; line-height: 1.45; }
+  html[lang="bn"] .tradeoff-card strong { font-size: 18px; line-height: 1.55; }
+  .neutral-choice { font-size: 16px; padding: 13px 14px; }
+  .check-option span { font-size: 16.5px; }
+  .field label { font-size: 14px; }
+  .field input, .field select { min-height: 49px; font-size: 16px; }
+  .chip { font-size: 13.5px; padding: 10px 12px; }
+  .fit-summary-grid, .path-card-grid, .market-position-grid { grid-template-columns: 1fr; }
+  .career-reference { grid-template-columns: 1fr; }
+  .career-reference p { grid-column: auto; }
+  .report-shell { padding: 0 14px; }
+  .report-paper { padding: 26px 19px; }
+  .report-watermark { display: none; }
+  .report-id-strip { flex-direction: column; gap: 3px; }
+  .preference-position { align-items: flex-start; }
+  .preference-position span { font-size: 11px; }
+  .preference-dots { padding-top: 3px; }
+  .report-language-switch span { display: none; }
+}
+
+/* Printing should retain a clearly bounded report even when background graphics are disabled. */
+@media print {
+  body { background: #fff !important; }
+  .site-header { border-bottom: 1px solid #7c8b8d; }
+  .report-language-switch { display: none !important; }
+  .report-shell { max-width: none; margin: 0; padding: 0; }
+  .report-paper {
+    border: 2px solid #66787b !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    padding: 18mm 16mm !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .path-card,
+  .fit-summary-card,
+  .market-position-card,
+  .discovery-report-card { border-color: #7a8a8d !important; break-inside: avoid; }
+  .report-watermark { color: rgba(20,32,42,.14) !important; }
+  a { color: #111 !important; text-decoration: none !important; }
+}
+
+
+/* Short post-result product feedback, separate from research consent. */
+.feedback-card {
+  margin-top: 12px;
+  padding: 17px;
+  border: 1px solid #c8d2d1;
+  background: #fafbf9;
+  border-radius: 5px;
+  display: grid;
+  gap: 16px;
+}
+.feedback-card fieldset { margin: 0; padding: 0; border: 0; }
+.feedback-card legend { margin-bottom: 9px; font-weight: 650; color: #2e3d45; }
+.feedback-rating { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; max-width: 360px; }
+.feedback-rating label { cursor: pointer; }
+.feedback-rating input { position: absolute; opacity: 0; pointer-events: none; }
+.feedback-rating span {
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  border: 1px solid var(--control-line);
+  background: #fff;
+  font-weight: 700;
+}
+.feedback-rating input:checked + span {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.feedback-scale { display: flex; justify-content: space-between; max-width: 360px; margin-top: 5px; color: var(--muted); font-size: 11px; }
+.feedback-card textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 96px;
+  border: 1px solid var(--control-line);
+  border-radius: 5px;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: #fff;
+  font: inherit;
+}
+.feedback-card textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(17,106,99,.10); }
+
+
+/* Internal synthetic report-value gallery. */
+.qa-report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 26px;
+}
+.qa-report-card {
+  padding: 17px;
+  border: 1px solid #c8d2d1;
+  background: #fbfcfb;
+  border-radius: 5px;
+}
+.qa-report-card > strong { font-size: 16px; color: var(--ink); }
+.qa-report-card > p { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.qa-report-card .actions { margin-top: 14px; }
+@media (max-width: 720px) {
+  .qa-report-grid { grid-template-columns: 1fr; }
+}
+
+
+/* Paid-report v0.7 value blocks used by both the fictional sample and real report. */
+.priority-card {
+  margin: 12px 0 6px;
+  padding: 16px 18px;
+  background: #142f35;
+  color: #fff;
+  border-radius: 4px;
+}
+.priority-card > span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .055em;
+  opacity: .76;
+  text-transform: uppercase;
+}
+.priority-card > strong { display: block; font-size: 17px; line-height: 1.45; }
+html[lang="bn"] .priority-card > span,
+#report-bn .priority-card > span { letter-spacing: 0; text-transform: none; }
+
+.path-diagnosis,
+.path-strategy {
+  margin-top: 12px;
+  padding: 11px 12px;
+  border-left: 3px solid #86a9a2;
+  background: #f5f9f8;
+}
+.path-strategy {
+  border-left-color: #b6a26f;
+  background: #faf8f2;
+}
+.path-diagnosis > strong,
+.path-strategy > strong {
+  font-size: 11.5px;
+  color: #31474c;
+}
+.path-diagnosis p,
+.path-strategy p { margin: 4px 0 0; font-size: 13px; }

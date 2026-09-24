@@ -1,0 +1,142 @@
+/* Architecture-review refinements for v0.6. */
+.resume-result-card {
+  display: grid;
+  gap: 4px;
+  margin: 20px 0 2px;
+  padding: 13px 15px;
+  border: 1px solid #9fb9b3;
+  border-left: 4px solid var(--accent);
+  border-radius: 5px;
+  background: #f4faf7;
+}
+.resume-result-card strong { color: var(--accent-dark); }
+.resume-result-card span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+.response-quality-note {
+  display: grid;
+  gap: 5px;
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid #c9d8d4;
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  background: #f7fbfa;
+}
+.response-quality-note strong { color: var(--accent-dark); font-size: 13px; }
+.response-quality-note span { color: #47575e; font-size: 13px; line-height: 1.5; }
+
+.research-disclosure-compact {
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid #d8e0df;
+}
+.research-disclosure-compact > strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+}
+.research-disclosure-compact .research-optin {
+  margin: 0;
+  padding: 10px 11px;
+  border: 1px solid #d1dcda;
+  border-radius: 5px;
+  background: #fafcfb;
+}
+
+.research-extra-card {
+  display: grid;
+  gap: 18px;
+  margin-top: 4px;
+  padding: 18px;
+  border: 1px solid #afc8c2;
+  border-radius: 8px;
+  background: #f7fbfa;
+}
+.research-extra-head { display: grid; gap: 4px; }
+.research-extra-head > span { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .055em; }
+.research-extra-head > strong { color: var(--ink); font-size: 16px; }
+.research-extra-head > p { margin: 0; color: var(--muted); font-size: 12.8px; }
+.institution-prominent {
+  padding: 15px;
+  border: 1px solid #c4d2cf;
+  border-radius: 7px;
+  background: white;
+}
+.institution-prominent > label { font-size: 15px; color: var(--ink); }
+.followup-choice-block { margin-top: 0; }
+.research-save-button { min-width: 220px; }
+.save-action-hint {
+  margin-top: 2px;
+  padding: 9px 11px;
+  border-left: 3px solid var(--accent);
+  background: #f3f8f6;
+  color: #315a54;
+  font-size: 12.8px;
+  line-height: 1.45;
+}
+.research-save-button.needs-save {
+  border-color: var(--accent);
+  animation: research-save-cue .9s ease-out 1;
+}
+@keyframes research-save-cue {
+  0% { box-shadow: 0 0 0 0 rgba(17,106,99,.28); }
+  45% { box-shadow: 0 0 0 6px rgba(17,106,99,.12); }
+  100% { box-shadow: 0 0 0 0 rgba(17,106,99,0); }
+}
+.saved-confirmation {
+  display: block;
+  padding: 12px 14px;
+  border: 1px solid #9fc0b7;
+  border-radius: 7px;
+  background: #f0f8f5;
+  color: #174f48;
+  font-weight: 600;
+}
+.saved-confirmation::before { content: '✓ '; font-weight: 800; }
+.saved-button { border-color: #9fc0b7 !important; background: #f4f8f6 !important; color: #315a54 !important; }
+
+.paid-value-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+.paid-value-grid > div {
+  display: grid;
+  gap: 3px;
+  padding: 12px 13px;
+  border: 1px solid #c8d9d5;
+  border-radius: 7px;
+  background: #fff;
+}
+.paid-value-grid strong { font-family: inherit; font-size: 13.5px; color: #20363b; }
+.paid-value-grid span { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+
+/* Keep paired profile controls aligned even when one field has helper text. */
+.field { align-content: start; }
+.field input,
+.field select {
+  height: 46px;
+  min-height: 46px;
+  margin: 0;
+}
+.field-help { align-self: start; }
+
+.even-profile-card {
+  border-left-color: #667f82;
+  background: #f7f9f8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .research-save-button.needs-save { animation: none; box-shadow: 0 0 0 3px rgba(17,106,99,.12); }
+}
+
+@media (max-width: 720px) {
+  .resume-result-card { margin-top: 16px; }
+  .research-disclosure-compact .research-optin { align-items: flex-start; }
+  .research-extra-card { padding: 15px; }
+  .paid-value-grid { grid-template-columns: 1fr; }
+}

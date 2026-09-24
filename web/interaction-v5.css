@@ -1,0 +1,100 @@
+/* Interaction polish: clear waiting state and quiet-by-default completion audio. */
+
+.result-loading-box {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 15px;
+  align-items: center;
+  margin-top: 24px;
+  padding: 17px 18px;
+  border: 1px solid #bccdca;
+  background: #f7fbf9;
+  border-radius: 6px;
+}
+
+.result-loader {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid #b6c9c5;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.result-loader span {
+  width: 4px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--accent-dark);
+  animation: gcnLoadingPulse .9s ease-in-out infinite;
+}
+.result-loader span:nth-child(2) { animation-delay: .12s; }
+.result-loader span:nth-child(3) { animation-delay: .24s; }
+
+@keyframes gcnLoadingPulse {
+  0%, 100% { transform: scaleY(.55); opacity: .45; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+.result-loading-copy {
+  display: grid;
+  gap: 3px;
+}
+.result-loading-copy strong {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.result-loading-copy span {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+html[lang="bn"] .result-loading-copy strong {
+  font-family: "Noto Serif Bengali", serif;
+  line-height: 1.55;
+}
+
+.result-sound-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+.result-sound-toggle {
+  border: 1px solid #aabdb9;
+  border-radius: 5px;
+  background: #fff;
+  color: #274742;
+  padding: 8px 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.result-sound-toggle[aria-pressed="true"] {
+  border-color: var(--accent-dark);
+  background: #edf7f4;
+}
+.result-sound-row > span {
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+@media (max-width: 720px) {
+  .result-loading-box {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 12px;
+    padding: 15px;
+  }
+  .result-loader { width: 34px; height: 34px; }
+  .result-loading-copy strong { font-size: 17px; }
+  .result-sound-row { align-items: flex-start; flex-direction: column; gap: 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-loader span { animation: none; opacity: .75; }
+}

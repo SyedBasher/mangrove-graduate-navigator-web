@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Practical career direction for graduates in Bangladesh, based on capabilities, preferences and real constraints." />
+  <title>Mangrove Graduate Navigator</title>
+  <link rel="icon" href="./assets/mangrove-graduate-navigator-icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./refinement-v3.css" />
+  <link rel="stylesheet" href="./interaction-v5.css" />
+  <link rel="stylesheet" href="./audit-v06.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand brand-lockup" href="./" aria-label="Mangrove Graduate Navigator home">
+      <img class="brand-symbol" src="./assets/mangrove-graduate-navigator-icon.svg" alt="" />
+      <span class="brand-copy">
+        <strong><span class="brand-parent">Mangrove</span><span class="brand-product">Graduate Navigator</span></strong>
+        <small id="brand-subtitle">A Mangrove Intelligence product</small>
+      </span>
+    </a>
+    <div id="language-toggle" class="language-toggle" role="group" aria-label="Language">
+      <button type="button" data-language="en">English</button>
+      <button type="button" data-language="bn">বাংলা</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div id="progress-wrap" class="progress-wrap hidden" aria-live="polite">
+      <div class="progress-meta">
+        <span id="progress-label">Step 1 of 4</span>
+        <span id="progress-time">Usually 10–15 minutes</span>
+      </div>
+      <progress id="progress-bar" class="progress-bar" max="100" value="0" aria-label="Assessment progress"></progress>
+    </div>
+    <section id="app" class="card" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer">
+    <span><strong>Mangrove Graduate Navigator</strong> · A Mangrove Intelligence product</span>
+    <span><a id="footer-privacy" href="./privacy.html" target="_blank" rel="noopener">Terms & Privacy</a></span>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="./captcha-start.js"></script>
+</body>
+</html>
