@@ -3,15 +3,27 @@ import { isTurnstileConfigured, mountTurnstile, resetTurnstile } from './turnsti
 
 let challengeInFlight = false;
 
-function ensureChallengeHost(button) {
+function ensureChallengeHost() {
   let wrap = document.querySelector('#turnstile-start-wrap');
   if (wrap) return wrap;
+
   wrap = document.createElement('div');
   wrap.id = 'turnstile-start-wrap';
-  wrap.className = 'turnstile-start-wrap';
-  wrap.innerHTML = '<div id="turnstile-start-widget"></div>';
-  const actions = button.closest('.welcome-actions');
-  (actions?.parentElement || button.parentElement)?.insertBefore(wrap, actions?.nextSibling || null);
+  wrap.setAttribute('aria-hidden', 'true');
+  Object.assign(wrap.style, {
+    position: 'fixed',
+    left: '-10000px',
+    top: '-10000px',
+    width: '1px',
+    height: '1px',
+    overflow: 'hidden',
+    pointerEvents: 'none'
+  });
+
+  const host = document.createElement('div');
+  host.id = 'turnstile-start-widget';
+  wrap.appendChild(host);
+  document.body.appendChild(wrap);
   return wrap;
 }
 
@@ -29,7 +41,8 @@ async function completeChallenge(button) {
   challengeInFlight = true;
   button.disabled = true;
   setStatus('');
-  const wrap = ensureChallengeHost(button);
+
+  const wrap = ensureChallengeHost();
 
   try {
     await mountTurnstile(wrap.querySelector('#turnstile-start-widget'), {
@@ -56,6 +69,7 @@ async function completeChallenge(button) {
 document.addEventListener('click', async event => {
   const button = event.target.closest?.('#start-button');
   if (!button || !isTurnstileConfigured()) return;
+
   if (button.dataset.captchaReady === 'true') {
     delete button.dataset.captchaReady;
     return;
