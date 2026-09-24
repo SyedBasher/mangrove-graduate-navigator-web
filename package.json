@@ -1,0 +1,18 @@
+{
+  "name": "mangrove-graduate-navigator-web",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-supabase.mjs",
+    "audit:public": "node scripts/audit-public-boundary.mjs .",
+    "test": "node --test tests/*.test.mjs",
+    "ci": "npm run build && npm run audit:public && npm test"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.95.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.9"
+  }
+}
