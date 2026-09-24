@@ -59,3 +59,29 @@ export function fetchFullReport(sessionId, language = 'en', { country = 'BD' } =
     country,
   }, { responseType: 'text' });
 }
+
+
+export function createBkashPayment(sessionId, { country = 'BD' } = {}) {
+  return privateRequest('/payment/bkash/create', {
+    session_id: sessionId,
+    country,
+  });
+}
+
+export function executeBkashPayment(sessionId, paymentIntentId, paymentId, { country = 'BD' } = {}) {
+  return privateRequest('/payment/bkash/execute', {
+    session_id: sessionId,
+    payment_intent_id: paymentIntentId,
+    payment_id: paymentId,
+    country,
+  });
+}
+
+export function queryBkashPayment(sessionId, paymentIntentId, paymentId, { country = 'BD' } = {}) {
+  return privateRequest('/payment/bkash/query', {
+    session_id: sessionId,
+    payment_intent_id: paymentIntentId,
+    payment_id: paymentId,
+    country,
+  });
+}
