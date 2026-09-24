@@ -1,4 +1,4 @@
-import { ensureAnonymousSession, getExistingAuthSession, setStatus } from './runtime.js';
+import { ensureAnonymousSession, getExistingAuthSession, setStatus, state } from './runtime.js';
 import { isTurnstileConfigured, mountTurnstile, resetTurnstile } from './turnstile.js';
 
 let challengeInFlight = false;
@@ -27,13 +27,28 @@ function ensureChallengeHost() {
   return wrap;
 }
 
+function genericStartError() {
+  return state.lang === 'bn'
+    ? 'মূল্যায়ন শুরু করা যায়নি। আবার চেষ্টা করুন।'
+    : 'Could not start the assessment. Please try again.';
+}
+
 function failStart(button, error) {
   challengeInFlight = false;
   button.disabled = false;
   resetTurnstile();
   const wrap = document.querySelector('#turnstile-start-wrap');
   wrap?.querySelector('#turnstile-start-widget')?.replaceChildren();
-  setStatus(error?.message || 'Could not start the assessment. Please try again.', true);
+  console.warn('Assessment start verification failed:', error?.message || error);
+  setStatus(genericStartError(), true);
+}
+
+function continueAfterAuth(button) {
+  button.dataset.authReady = 'true';
+  button.dataset.captchaReady = 'true';
+  challengeInFlight = false;
+  button.disabled = false;
+  button.click();
 }
 
 async function completeChallenge(button) {
@@ -43,27 +58,52 @@ async function completeChallenge(button) {
   setStatus('');
 
   const wrap = ensureChallengeHost();
+  let settled = false;
+  let timeoutId = null;
+
+  const finish = () => {
+    if (settled) return;
+    settled = true;
+    if (timeoutId) clearTimeout(timeoutId);
+    continueAfterAuth(button);
+  };
+
+  const finalFailure = error => {
+    if (settled) return;
+    settled = true;
+    if (timeoutId) clearTimeout(timeoutId);
+    failStart(button, error);
+  };
+
+  timeoutId = setTimeout(async () => {
+    if (settled) return;
+    const existing = await getExistingAuthSession().catch(() => null);
+    if (existing) {
+      finish();
+      return;
+    }
+    finalFailure(new Error('Verification timed out'));
+  }, 8000);
 
   try {
     await mountTurnstile(wrap.querySelector('#turnstile-start-widget'), {
       onReady: async token => {
-        if (!token) return;
+        if (settled || !token) return;
         try {
           await ensureAnonymousSession(token);
-          button.dataset.authReady = 'true';
-          button.dataset.captchaReady = 'true';
-          challengeInFlight = false;
-          button.disabled = false;
-          button.click();
+          finish();
         } catch (error) {
-          failStart(button, error);
+          finalFailure(error);
         }
       },
-      onExpired: () => failStart(button, new Error('Could not start the assessment. Please try again.')),
-      onError: () => failStart(button, new Error('Could not start the assessment. Please try again.')),
+      // Invisible Turnstile can briefly emit an error/expiry callback while
+      // retrying internally. Do not surface that transient state to the user.
+      // The timeout above is the only fallback if no valid session is created.
+      onExpired: () => {},
+      onError: () => {},
     });
   } catch (error) {
-    failStart(button, error);
+    finalFailure(error);
   }
 }
 
