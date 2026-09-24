@@ -58,7 +58,7 @@ async function startAssessment(button = null) {
   const btn = button || document.querySelector('#start-button');
   if (!btn) return;
   btn.disabled = true;
-  setStatus(state.lang === 'en' ? 'Starting assessment…' : 'মূল্যায়ন শুরু হচ্ছে…');
+  setStatus('');
   try {
     await ensureAnonymousSession();
     state.researchConsent = false;
