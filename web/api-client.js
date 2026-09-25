@@ -45,10 +45,63 @@ export function generatePreview(sessionId, { country = 'BD' } = {}) {
   });
 }
 
+export function generateFullReport(sessionId, { country = 'BD' } = {}) {
+  return privateRequest('/report/generate', {
+    session_id: sessionId,
+    country,
+  });
+}
+
 export function fetchFullReport(sessionId, language = 'en', { country = 'BD' } = {}) {
   return privateRequest('/report/full', {
     session_id: sessionId,
     language,
     country,
   }, { responseType: 'text' });
+}
+
+
+export function createBkashPayment(sessionId, { country = 'BD' } = {}) {
+  return privateRequest('/payment/bkash/create', {
+    session_id: sessionId,
+    country,
+  });
+}
+
+export function executeBkashPayment(sessionId, paymentIntentId, paymentId, { country = 'BD' } = {}) {
+  return privateRequest('/payment/bkash/execute', {
+    session_id: sessionId,
+    payment_intent_id: paymentIntentId,
+    payment_id: paymentId,
+    country,
+  });
+}
+
+export function queryBkashPayment(sessionId, paymentIntentId, paymentId, { country = 'BD' } = {}) {
+  return privateRequest('/payment/bkash/query', {
+    session_id: sessionId,
+    payment_intent_id: paymentIntentId,
+    payment_id: paymentId,
+    country,
+  });
+}
+
+
+export function saveResearchFollowup(sessionId, {
+  researchConsent,
+  institutionType = null,
+  followupConsent = false,
+  contactChannel = null,
+  contactValue = null,
+  country = 'BD',
+} = {}) {
+  return privateRequest('/research/followup', {
+    session_id: sessionId,
+    research_consent: researchConsent === true,
+    institution_type: institutionType,
+    followup_consent: followupConsent === true,
+    contact_channel: followupConsent ? contactChannel : null,
+    contact_value: followupConsent ? contactValue : null,
+    country,
+  });
 }
