@@ -16,7 +16,10 @@ const rx = (...parts) => new RegExp(parts.join(''), 'i');
 const sensitive=[
   ['private Gmail/Googlemail address',/[A-Z0-9._%+-]+@(?:gmail|googlemail)\.com/i],
   ['Supabase service-role secret',rx('SUPABASE_','(?:SERVICE_ROLE|SECRET)_KEY')],
-  ['bKash server credential',rx('BKASH_','(?:PASSWORD|APP_SECRET|USERNAME)')],
+  ['Supabase modern secret key literal',/sb_secret_[A-Za-z0-9_-]{16,}/],
+  ['Mangrove upstream secret',/MANGROVE_UPSTREAM_KEY\s*[:=]/i],
+  ['bKash server credential',rx('BKASH_','(?:PASSWORD|APP_SECRET|APP_KEY|USERNAME)')],
+  ['Cloudflare API token variable',/CLOUDFLARE_API_TOKEN\s*[:=]/i],
   ['Turnstile secret',rx('TURNSTILE_','SECRET')],
   ['private key block',/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
   ['private scoring source marker',rx('CAREER_','WEIGHTS|capability_','weights|preference_','targets')],

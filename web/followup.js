@@ -1,4 +1,5 @@
-import { app, state, supabase } from './runtime.js';
+import { app, state } from './runtime.js';
+import { saveResearchFollowup } from './api-client.js';
 
 function institutionOptions() {
   const en = state.lang === 'en';
@@ -114,20 +115,19 @@ function mountFollowup() {
     button.classList.remove('needs-save');
     saveHint?.classList.add('hidden');
     if (status) { status.textContent = en ? 'Saving…' : 'সংরক্ষণ হচ্ছে…'; status.className = 'status field full'; }
-    const { data, error } = await supabase.functions.invoke('save-followup', {
-      body: {
-        session_id: state.sessionId,
-        research_consent: researchReuseConsent,
-        institution_type: institutionType || null,
-        followup_consent: followupOptIn,
-        contact_channel: followupOptIn ? contactChannel : null,
-        contact_value: followupOptIn ? contactValue : null,
-      },
-    });
-    if (error || !data?.ok) {
+    let data;
+    try {
+      data = await saveResearchFollowup(state.sessionId, {
+        researchConsent: researchReuseConsent,
+        institutionType: institutionType || null,
+        followupConsent: followupOptIn,
+        contactChannel: followupOptIn ? contactChannel : null,
+        contactValue: followupOptIn ? contactValue : null,
+      });
+    } catch (error) {
       button.disabled = false;
       if (followupOptIn && contactValue) cueSave();
-      if (status) { status.textContent = error?.message || data?.error || (en ? 'Could not save these choices.' : 'এই তথ্য সংরক্ষণ করা যায়নি।'); status.className = 'status field full error'; }
+      if (status) { status.textContent = en ? 'Could not save these choices.' : 'এই তথ্য সংরক্ষণ করা যায়নি।'; status.className = 'status field full error'; }
       return;
     }
 

@@ -12,6 +12,7 @@ const headers=read('web/_headers');
 test('public shell points proprietary calls at Mangrove private API',()=>{
   assert.match(config,/MANGROVE_API_BASE = 'https:\/\/api\.mangroveintel\.com\/api\/v1'/);
   assert.match(client,/\/assessment\/preview/);
+  assert.match(client,/\/report\/generate/);
   assert.match(client,/\/report\/full/);
   assert.match(client,/Authorization:/);
 });
@@ -26,4 +27,11 @@ test('Cloudflare Pages CSP permits only the Mangrove gateway plus required clien
   assert.match(headers,/https:\/\/api\.mangroveintel\.com/);
   assert.match(headers,/https:\/\/challenges\.cloudflare\.com/);
   assert.match(headers,/https:\/\/hdftqqhrsvespkdhunlr\.supabase\.co/);
+});
+
+
+test('paid report delivery remains behind the hard payment gate',()=>{
+  const delivery=read('web/paid-report-delivery.js');
+  assert.match(delivery,/if \(!PAYMENTS_ENABLED \|\| !state\.sessionId\) return false/);
+  assert.match(delivery,/generateFullReport\(state\.sessionId/);
 });
