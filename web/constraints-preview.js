@@ -204,6 +204,7 @@ function renderPreview(data) {
   const focus = data?.focus || null;
   const contrast = data?.profile_contrast || null;
   const legacyProjection = data?.legacy_preference_projection === true;
+  const readinessBasisNote = data?.readiness_basis_note || null;
   const actions = data?.actions || [];
   const searchTerms = data?.search_terms || [];
   const reportReference = data?.report_reference || null;
@@ -227,6 +228,7 @@ function renderPreview(data) {
     <p class="lede compact-lede">${explanation}</p>
 
     ${legacyProjection ? `<div class="discovery-card even-profile-card"><span>${state.lang === 'en' ? 'EARLIER ASSESSMENT VERSION' : 'আগের মূল্যায়ন সংস্করণ'}</span><strong>${state.lang === 'en' ? 'This saved result uses an earlier preference instrument' : 'এই সংরক্ষিত ফলে আগের পছন্দের প্রশ্ন ব্যবহার করা হয়েছে'}</strong><p>${state.lang === 'en' ? 'We can still reopen it, but its work-preference estimate is less detailed than a new assessment using the current repeated-comparison questions.' : 'ফলটি এখনও খোলা যায়, তবে বর্তমান বারবার করা তুলনার প্রশ্নে নতুন মূল্যায়ন দিলে কাজের পছন্দ সম্পর্কে আরও বিস্তারিত ধারণা পাওয়া যাবে।'}</p></div>` : ''}
+    ${readinessBasisNote ? `<div class="discovery-card even-profile-card"><span>${state.lang === 'en' ? 'HOW TO READ READINESS' : 'প্রস্তুতির চিহ্ন কীভাবে বুঝবেন'}</span><strong>${state.lang === 'en' ? 'Your work preferences were not strongly directional' : 'কাজের পছন্দে স্পষ্ট দিক পাওয়া যায়নি'}</strong><p>${esc(state.lang === 'en' ? readinessBasisNote.en : readinessBasisNote.bn)}</p></div>` : ''}
     ${contrast ? `<div class="discovery-card even-profile-card"><span>${state.lang === 'en' ? 'A NOTE ABOUT YOUR ANSWERS' : 'আপনার উত্তর সম্পর্কে একটি কথা'}</span><strong>${contrastTitle}</strong><p>${esc(state.lang === 'en' ? contrast.message_en : contrast.message_bn)}</p></div>` : ''}
     ${insight ? `<div class="discovery-card"><span>${state.lang === 'en' ? 'WHAT MAY BE EASY TO MISS' : 'যেটি সহজে চোখ এড়িয়ে যেতে পারে'}</span><strong>${esc(state.lang === 'en' ? insight.headline_en : insight.headline_bn)}</strong><p>${esc(state.lang === 'en' ? insight.text_en : insight.text_bn)}</p></div>` : ''}
 
