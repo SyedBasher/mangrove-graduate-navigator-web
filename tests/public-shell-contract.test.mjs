@@ -40,3 +40,11 @@ test('browser owns presentation, not scoring',()=>{
     for(const marker of privateMarkers) assert.equal(source.includes(marker),false);
   }
 });
+
+
+test('free result explains sparse preference readiness without exposing scoring internals',()=>{
+  assert.match(constraints,/readiness_basis_note/);
+  assert.match(constraints,/HOW TO READ READINESS/);
+  assert.match(constraints,/কাজের পছন্দে স্পষ্ট দিক পাওয়া যায়নি/);
+  assert.doesNotMatch(constraints,/MIN_DIRECTIONAL_PREFERENCES_FOR_READINESS|preference_readiness_gate_applied/);
+});
