@@ -11,6 +11,7 @@ const icons = [
   ['mangrove-graduate-navigator-icon-180.png', 180],
   ['mangrove-graduate-navigator-icon-192.png', 192],
   ['mangrove-graduate-navigator-icon-512.png', 512],
+  ['mangrove-graduate-navigator-logo-1024.png', 1024],
 ];
 
 for (const [name, size] of icons) {
