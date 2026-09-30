@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://graduate.mangroveintel.com/sitemap.xml
