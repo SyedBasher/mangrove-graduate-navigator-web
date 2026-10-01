@@ -13,15 +13,9 @@ function isTurnstilePreviewHost() {
     || IMMUTABLE_PREVIEW_HOST.test(host);
 }
 
-// The address decides the interface language: /bn/ is Bangla; the root and every
-// other path are English. Saved choices and session data never override the URL.
-export function pageLanguage(pathname = window.location.pathname) {
-  return /^\/bn(\/|$)/.test(pathname) ? 'bn' : 'en';
-}
-
 export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 export const state = {
-  lang: pageLanguage(), userId: null, sessionId: null,
+  lang: localStorage.getItem('gcn_lang') || 'en', userId: null, sessionId: null,
   startedAt: null, questionStartedAt: null, researchConsent: false, profile: {}, capabilities: {},
   preferences: {}, constraints: {}, capIndex: 0, prefIndex: 0, resumeInfo: null,
 };

@@ -1,6 +1,5 @@
 import { ASSESSMENT_VERSION, CONSENT_VERSION } from './config.js';
 import { app, state, supabase, t, hideProgress, showProgress, setStatus, ensureAnonymousSession, logEvent, go, clearSavedProgress } from './runtime.js';
-import { welcomeMarkup } from './welcome-markup.js';
 import { allDistrictOptions, divisionForDistrict } from './bd-locations.js';
 
 const CONSENT_UI_VERSION = 'welcome-v0.4';
@@ -25,7 +24,28 @@ function resetForNewAssessment() {
 export function renderWelcome() {
   hideProgress();
   const hasCompleted = state.resumeInfo?.type === 'completed';
-  app.innerHTML = welcomeMarkup(state.lang, { hasCompleted });
+  app.innerHTML = `
+    <div class="welcome-layout">
+      <div class="welcome-main">
+        <p class="eyebrow">${t('startEyebrow')}</p>
+        <h1>${t('startTitle')}</h1>
+        <p class="lede">${t('startLede')}</p>
+        <div class="actions welcome-actions">
+          <button id="start-button" class="primary" type="button">${hasCompleted ? (state.lang === 'en' ? 'Start a new assessment' : 'নতুন মূল্যায়ন শুরু করুন') : t('start')}</button>
+          ${hasCompleted ? `<button id="view-last-result" class="secondary" type="button">${state.lang === 'en' ? 'View my last result' : 'আমার শেষ ফল দেখুন'}</button>` : ''}
+          <a class="secondary button-link" href="${state.lang === 'en' ? './sample-report.html' : './sample-report-bn.html'}" target="_blank" rel="noopener">${t('sample')}</a>
+        </div>
+        <p class="terms-line">${state.lang === 'en'
+          ? 'By starting an assessment, you agree to our <a href="./privacy.html" target="_blank" rel="noopener">Terms & Privacy</a>. Optional research choices are offered only after you receive your free result and do not affect it.'
+          : 'মূল্যায়ন শুরু করলে আপনি আমাদের <a href="./privacy.html" target="_blank" rel="noopener">Terms & Privacy</a>-এ সম্মত হচ্ছেন। ঐচ্ছিক গবেষণার প্রশ্ন শুধু ফ্রি ফল পাওয়ার পর দেখানো হবে এবং এগুলো আপনার ফল বদলাবে না।'}</p>
+        <div id="status" class="status"></div>
+      </div>
+      <aside class="welcome-proof" aria-label="Assessment features">
+        <div><strong>${t('privacy')}</strong><span>${state.lang === 'en' ? 'Start with what you can do, not a polished CV.' : 'ঝকঝকে CV নয়—আপনি বাস্তবে কী করতে পারেন, সেখান থেকে শুরু।'}</span></div>
+        <div><strong>${state.lang === 'en' ? 'Usually 10–15 minutes' : 'সাধারণত ১০–১৫ মিনিট'}</strong><span>${state.lang === 'en' ? 'One topic at a time. For each capability, you choose what you can do and briefly say where you have used it.' : 'একবারে একটি বিষয়। প্রতিটি সক্ষমতায় আপনি কী করতে পারেন এবং কোথায় সেটি ব্যবহার করেছেন—দুটিই সংক্ষেপে জানাবেন।'}</span></div>
+        <div><strong>${t('privacy3')}</strong><span>${state.lang === 'en' ? 'You leave with strengths, a useful gap and next actions even if you do not pay.' : 'পেমেন্ট না করলেও আপনার শক্ত দিক, একটি কাজে লাগা উন্নতির জায়গা এবং পরবর্তী পদক্ষেপ পাবেন।'}</span></div>
+      </aside>
+    </div>`;
 
   document.querySelector('#view-last-result')?.addEventListener('click', () => go('last_result'));
   document.querySelector('#start-button')?.addEventListener('click', (event) => {

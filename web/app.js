@@ -15,17 +15,13 @@ import './captcha-start.js';
 let currentStage = 'welcome';
 let handlingPopState = false;
 const HISTORY_STAGES = new Set(['welcome','profile','capabilities','preferences','constraints','last_result']);
-// Switching language loads the other address (/ or /bn/). The stage the person was on is
-// carried across that page load in sessionStorage so they land back where they were.
-const LANGUAGE_SWITCH_KEY = 'gcn_language_switch_stage';
 
 function syncLanguageChrome() {
   document.documentElement.lang = state.lang;
-  languageToggle?.querySelectorAll('a[data-language]').forEach((link) => {
-    const active = link.dataset.language === state.lang;
-    link.classList.toggle('active', active);
-    if (active) link.setAttribute('aria-current', 'page');
-    else link.removeAttribute('aria-current');
+  languageToggle?.querySelectorAll('[data-language]').forEach((button) => {
+    const active = button.dataset.language === state.lang;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
   });
   const subtitle = document.querySelector('#brand-subtitle');
   if (subtitle) subtitle.textContent = 'A Mangrove Intelligence product';
@@ -174,6 +170,7 @@ async function hydrateLatestSession() {
 
   state.sessionId = session.session_id;
   state.startedAt = new Date(session.started_at).getTime();
+  if (session.language === 'en' || session.language === 'bn') state.lang = session.language;
 
   if (session.status === 'completed') {
     state.resumeInfo = { type: 'completed', sessionId: state.sessionId, currentRunId: session.current_run_id, completedAt: session.completed_at };
@@ -220,28 +217,20 @@ window.addEventListener('popstate', (event) => {
   handlingPopState = false;
 });
 
-languageToggle?.addEventListener('click', (event) => {
-  const link = event.target.closest('a[data-language]');
-  if (!link) return;
-  if (link.dataset.language === state.lang) {
-    event.preventDefault();
-    return;
-  }
-  if (currentStage === 'welcome') return;
-  try { sessionStorage.setItem(LANGUAGE_SWITCH_KEY, currentStage); } catch { /* storage unavailable: land on welcome */ }
+languageToggle.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-language]');
+  if (!button || button.dataset.language === state.lang) return;
+  state.lang = button.dataset.language;
+  localStorage.setItem('gcn_lang', state.lang);
+  syncLanguageChrome();
+  if (currentStage === 'welcome') return render('welcome');
+  if (state.resumeInfo?.type === 'completed') return render('welcome');
+  if (!state.sessionId) return render('welcome');
+  if (!Object.keys(state.profile).length) return render('profile');
+  if (Object.keys(state.capabilities).length < capabilityItems.length) return render('capabilities');
+  if (Object.keys(state.preferences).length < preferenceItems.length) return render('preferences');
+  return render('constraints');
 });
-
-function consumeLanguageSwitchStage() {
-  let stage = null;
-  try {
-    stage = sessionStorage.getItem(LANGUAGE_SWITCH_KEY);
-    sessionStorage.removeItem(LANGUAGE_SWITCH_KEY);
-  } catch { return null; }
-  if (!stage) return null;
-  if (state.resumeInfo?.type === 'completed') return 'last_result';
-  if (state.resumeInfo?.type === 'in_progress') return inferResumeStage() || state.resumeInfo.resumeStage || null;
-  return null;
-}
 
 document.querySelector('.brand')?.addEventListener('click', (event) => {
   event.preventDefault();
@@ -255,13 +244,7 @@ async function boot() {
   try {
     const stage = await hydrateLatestSession();
     pushStage(stage, { replace:true });
-    const switchedStage = consumeLanguageSwitchStage();
-    if (switchedStage && switchedStage !== stage) {
-      pushStage(switchedStage);
-      render(switchedStage);
-    } else {
-      render(stage);
-    }
+    render(stage);
   } catch (error) {
     console.warn('Could not restore the last assessment:', error?.message || error);
     state.sessionId = null;
