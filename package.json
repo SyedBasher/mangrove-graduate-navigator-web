@@ -4,7 +4,8 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-supabase.mjs && node scripts/build-icons.mjs",
+    "build": "node scripts/prerender-pages.mjs && node scripts/build-supabase.mjs && node scripts/build-icons.mjs",
+    "prerender": "node scripts/prerender-pages.mjs",
     "audit:public": "node scripts/audit-public-boundary.mjs .",
     "test": "node --test tests/*.test.mjs",
     "ci": "npm run build && npm run audit:public && npm test"

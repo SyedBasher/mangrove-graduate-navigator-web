@@ -126,7 +126,8 @@ h2 { font-size: clamp(29px, 4vw, 38px); max-width: 700px; }
   background: #fff;
   box-shadow: 0 2px 8px rgba(20,32,42,.05);
 }
-.language-toggle button {
+.language-toggle a {
+  display: inline-block;
   border: 1px solid transparent;
   border-radius: 6px;
   background: transparent;
@@ -134,9 +135,12 @@ h2 { font-size: clamp(29px, 4vw, 38px); max-width: 700px; }
   padding: 7px 11px;
   font-weight: 700;
   line-height: 1;
+  text-decoration: none;
 }
-.language-toggle button:hover { background: #f3f7f6; }
-.language-toggle button.active {
+.language-toggle a:hover { background: #f3f7f6; }
+.language-toggle a:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+.language-toggle a.active,
+.language-toggle a[aria-current="page"] {
   background: var(--accent-dark);
   color: #fff;
   border-color: var(--accent-dark);

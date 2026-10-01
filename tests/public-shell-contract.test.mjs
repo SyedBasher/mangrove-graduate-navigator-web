@@ -4,7 +4,7 @@ import test from 'node:test';
 
 const read=p=>readFileSync(p,'utf8');
 const app=read('web/app.js');
-const welcome=read('web/welcome-profile.js');
+const welcome=read('web/welcome-profile.js')+read('web/welcome-markup.js');
 const constraints=read('web/constraints-preview.js');
 const config=read('web/config.js');
 const privacy=read('web/privacy.html');
